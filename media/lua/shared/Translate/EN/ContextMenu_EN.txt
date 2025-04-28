@@ -1,0 +1,9 @@
+ContextMenu_EN = {
+
+ContextMenu_EnderVault  = "EnderVault: "
+	ContextMenu_EnderVault_TakeVault  = "Pickup Vault",
+	ContextMenu_EnderVault_ConvertVault  = "Activate Ender Vault",
+	ContextMenu_EnderVault_PlaceVault  = "Place Vault",
+	ContextMenu_EnderVault_Close  = "Seal Ender Vault",
+	ContextMenu_EnderVault_Open  = "Open Ender Vault",
+}

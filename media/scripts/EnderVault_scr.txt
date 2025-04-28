@@ -1,0 +1,17 @@
+module Base
+{
+
+
+	item EnderVault
+	{
+		DisplayName		= Ender Vault,
+		DisplayCategory = Furniture,
+		Type			= Normal,
+		Icon			= EnderVault,
+		Weight		  	= 3,
+	}
+
+
+	sound EnderVault_Close { category = Object, clip { file = media/sound/EnderVault_Close.ogg, distanceMax = 30, is3D = true,  maxInstancesPerEmitter = 1, volume = 0.5, } }
+	sound EnderVault_Open { category = Object, clip { file = media/sound/EnderVault_Open.ogg, distanceMax = 30, is3D = true,  maxInstancesPerEmitter = 1, volume = 0.5, } }
+}
