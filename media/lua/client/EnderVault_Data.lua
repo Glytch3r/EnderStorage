@@ -31,7 +31,9 @@ function EnderVault.storeData(cont, isTake)
             dirtyness = nil,
             haveBeenRepaired = (item.getHaveBeenRepaired and item:getHaveBeenRepaired()) or false,
             isBroken = (item.isBroken and item:isBroken()) or false,
-            modData = {}
+            KeyId = item.getKeyId and item:getKeyId() or nil,
+            modData = {},
+
         }
 
         if itemData.isRanged then
@@ -53,6 +55,10 @@ function EnderVault.storeData(cont, isTake)
             if item.getDirtyness then
                 itemData.dirtyness = item:getDirtyness()
             end
+        end
+
+        if item.getKeyId then
+            itemData.KeyId = item:getKeyId()
         end
 
         if item.hasModData and item:hasModData() then
@@ -133,7 +139,9 @@ function EnderVault.restoreData(cont)
                         item:setDirtyness(itemData.dirtyness)
                     end
                 end
-
+                if itemData.KeyId then
+                    item:setKeyId(itemData.KeyId)
+                end
                 if itemData.modData then
                     for k, v in pairs(itemData.modData) do
                         item:getModData()[k] = v
@@ -162,6 +170,7 @@ function EnderVault.restoreData(cont)
     for _, itemData in ipairs(storedItems) do
         restoreItem(itemData)
     end
+    modData.StoredItems = {}
     EnderVault.fin(nil)
 end
 
@@ -174,6 +183,7 @@ function EnderVault.clearAllItemsInContainer(cont)
     print(cont:getItems())
     EnderVault.fin(nil)
 end
+
 --EnderVault.clearAllItemsInContainer(dbgIso:getContainer(), dbgIso)
 --[[
     local items = cont:getItems()

@@ -36,7 +36,7 @@ end
 function EnderVault.addTip(option, sprName)
     local tooltip = ISToolTip:new();
     tooltip:initialise();
-    tooltip:setName(tostring(sprName));
+    --tooltip:setName(tostring(sprName));
     tooltip:setTexture(sprName);
     option.toolTip = tooltip
 end
@@ -70,18 +70,20 @@ function EnderVault.context(player, context, worldobjects, test)
 
 		if vault then
 			--print("vault")
-			if not EnderVault.isEnderVault(vault) then
-				local optTip = opt:addOptionOnTop(getText("ContextMenu_EnderVault_ConvertVault"), worldobjects, function()
-					if luautils.walkAdj(pl, sq) then
-						ISTimedActionQueue.add(EnderVault.Action:new(pl, vault, false))
-						getSoundManager():playUISound("EnderVault_Open")
-						EnderVault.fin(nil)
-					end
-				end)
-				local tip = ISWorldObjectContextMenu.addToolTip()
-				optTip.iconTexture = getTexture("media/ui/EnderVault_Off.png")
-				tip.description = getText("ContextMenu_EnderVault_ConvertVault")
-				optTip.toolTip = tip
+
+			local convOpt = opt:addOptionOnTop(getText("ContextMenu_EnderVault_ConvertVault"), worldobjects, function()
+				if luautils.walkAdj(pl, sq) then
+					ISTimedActionQueue.add(EnderVault.Action:new(pl, vault, false))
+					getSoundManager():playUISound("EnderVault_Open")
+					EnderVault.fin(nil)
+				end
+			end)
+			local tip = ISWorldObjectContextMenu.addToolTip()
+			convOpt.iconTexture = getTexture("media/ui/EnderVault_Off.png")
+			tip.description = getText("ContextMenu_EnderVault_ConvertVault")
+			convOpt.toolTip = tip
+			if EnderVault.isEnderVault(vault) then
+				convOpt.notAvailable = true
 			end
 
 
@@ -102,7 +104,18 @@ function EnderVault.context(player, context, worldobjects, test)
 			optTip.toolTip = tip
 
 
+
+--[[ 			local optTip2 = opt:addOptionOnTop(getText("ContextMenu_EnderVault_Open"), worldobjects, function()
+				EnderVault.restoreData(enderVaultCont)
+				getSoundManager():playUISound("EnderVault_On")
+				EnderVault.fin(nil)
+			end)
+			optTip2.iconTexture = getTexture("media/ui/EnderVault_On.png")
+			if EnderVault.isEnderVault(vault) then
+				convOpt.notAvailable = true
+			end ]]
 		end
+
 		if enderVaultCont then
 			local optTip = opt:addOptionOnTop(getText("ContextMenu_EnderVault_Close"), worldobjects, function()
 				if luautils.walkAdj(pl, sq) then
@@ -113,18 +126,8 @@ function EnderVault.context(player, context, worldobjects, test)
 				end
 			end)
 			optTip.iconTexture = getTexture("media/ui/EnderVault_Off.png")
-
-			local optTip2 = opt:addOptionOnTop(getText("ContextMenu_EnderVault_Open"), worldobjects, function()
-				if enderVaultCont then
-					EnderVault.restoreData(enderVaultCont)
-					getSoundManager():playUISound("EnderVault_On")
-					EnderVault.fin(nil)
-				end
-
-
-			end)
-			optTip2.iconTexture = getTexture("media/ui/EnderVault_On.png")
 		end
+
 	end
 end
 
